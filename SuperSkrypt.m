@@ -30,6 +30,8 @@
 % Wczytanie wiêzów opisuj¹cych mechanizm
 %input_wiezy;
 %input_wymiary;
+clear all;
+close all;
 pobierz_dane;
 % Inicjalizacja zmiennej do wyznaczania liczby równañ wiêzów 
 rows = 0;

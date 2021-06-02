@@ -50,7 +50,7 @@ fclose(wiezy);
 % end
 % fclose(wymuszenie);
 
-%% masy i momenty
+%% masy i momenty to jest dobrze
 masymomenty=fopen('masymomenty.txt','r');
 ilosc_cial=0;
 ilosc_cial=str2num(fgetl(masymomenty));

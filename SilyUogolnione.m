@@ -5,13 +5,12 @@ function [ Q ] = SilyUogolnione( NoB, Bezwladnosci, NoS, Sprezyny, NoF, Sily, q,
 % Czyszczenie wektora Q
     Q = zeros(3*NoB,1);
 
-% Si³y grawitacyjne
-
+% Si³y grawitacyjne to jest git
 for iter=1:NoB
-    Q(3*iter-1, 1) = - Bezwladnosci(iter).m * grav();
+    Q(3*iter-1, 1) = - Bezwladnosci(iter).m * grav;
 end
 
-%Si?y od sprà?yn
+%Si?y od sprà?yn to jest git
 
 for iter=1:NoS
     d = q_r(q, Sprezyny(iter).bodyj) - q_r(q, Sprezyny(iter).bodyi) + ...
@@ -40,7 +39,7 @@ for iter=1:NoS
     end
 end
 
-% Si?y zewnàtrzne
+% Si?y zewnàtrzne to jest git
 
 for iter=1:NoF
     if(Sily(iter).bodyi>0)
