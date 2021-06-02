@@ -1,7 +1,7 @@
 function [ Q ] = SilyUogolnione( NoB, Bezwladnosci, NoS, Sprezyny, NoF, Sily, q, qdot )
 %SILYUOGOLNIONE Funkcja zwracaj¹ca wektor si³ uogólnionych w zale¿noœci od
 %aktualnej konfiguracji mechanizmu
-
+grav= 9.80665;
 % Czyszczenie wektora Q
     Q = zeros(3*NoB,1);
 

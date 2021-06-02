@@ -81,8 +81,10 @@ for i=1:ilosc_sprezyn
 end
 
 %% Stałe zadania typu grawitacja error itp
-epsilon=1e-6;
-grav=9.80665;
+global epsilon
+epsilon= 1e-6;
+global grav
+grav= 9.80665;
 %% przypisanie do struktury Wiezy Bezwladnosc sprezyny sily
 Wiezy = struct('typ',{},...
     'klasa',{},... % jak to para? para postepowa czy obrotowa 

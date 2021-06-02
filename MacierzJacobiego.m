@@ -13,7 +13,7 @@ m = 1; % aktualny numer wiersza macierzy Jacobiego, ktory uzupelniamy -
        % jeden, czy dwa wiersze;
 
 Jacob = zeros(rows, size(q,1));
-
+epsilon= 1e-6;
 for l=1:length(Wiezy)
     if(lower(Wiezy(l).typ(1)) == 'd')
         if(lower(Wiezy(l).klasa(1)) == 'o')
@@ -93,7 +93,7 @@ for l=1:length(Wiezy)
 end
 
 wspolczynnik_uwarunkowania = cond(Jacob);
-if (wspolczynnik_uwarunkowania > (1/epsilon()))
+if (wspolczynnik_uwarunkowania > (1/epsilon))
     error('Macierz Jacobiego osobliwa');
 end
 

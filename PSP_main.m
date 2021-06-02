@@ -45,49 +45,50 @@ end
 % DQ to tablica do zapisu rozwiazan zadania o predkosci w kolejnych chwilach
 % D2Q to tablica do zapisu rozwiazan zadania o przyspieszeniu w kolejnych chwilach
 
+tstart = 0;
+tstop = 5;
+timestep = 0.001; % Paramtery czasu całkowania
+timespan = tstart:timestep:tstop;
 
+M = MacierzMasowa(Bezwladnosci, ilosc_cial);
 
-
-q=zeros(3*length(srodki_ciezkosci),1);
+q0=zeros(3*length(srodki_ciezkosci),1);
 for i=0:length(srodki_ciezkosci)-1
-   q(1+i*3)= srodki_ciezkosci(i+1,1);
-   q(2+i*3)= srodki_ciezkosci(i+1,2);
-   q(3+i*3)= 0;
+   q0(1+i*3)= srodki_ciezkosci(i+1,1);
+   q0(2+i*3)= srodki_ciezkosci(i+1,2);
+   q0(3+i*3)= 0;
 end
-qdot=zeros(size(q));
-qddot=zeros(size(q));
+qdot0 = zeros(size(q0)); % Początkowe prędkości
 
-lroz=0; % licznik rozwiazan (sluzy do numerowania kolumn w tablicach z wynikami)
-dt=0.01; % odstep pomiedzy kolejnymi chwilami
+Y0 = [q0; qdot0]; % Wektor, który będzie całkowany
 
-ZakresCzasu = 0:dt:2;
-Q = zeros(size(q,1), length(ZakresCzasu));
-DQ = zeros(size(Q));
-D2Q = zeros(size(Q));
-T = zeros(size(Q));
+disp("Rozpoczęto obliczenia");
 
-% rozwiazywanie zadan kinematyki w kolejnych chwilach t
-for t=ZakresCzasu
-    % zadanie o polozeniu, gdzie przyblizeniem poczatkowym jest rozwiazanie z poprzedniej chwili, 
-    % powiekszone o skladniki wynikajace z obliczonej predkości i przyspieszenia.
-    q0=q+qdot*dt+0.5*qddot*dt*dt;
-    q=NewtonRaphson(q0,t,Wiezy,rows); 
+OPTIONS = odeset('RelTol', 1e-6, 'AbsTol', 1e-9);
+[T,Y]=ode45(@(t,Y) RHS(t,Y,Wiezy,rows,M, ilosc_cial, Bezwladnosci, ilosc_sprezyn, Sprezyny, ilosc_sil, Sily),timespan,Y0,OPTIONS);
+    % Ponieważ macierz bezwładności nie zmienia się w czasie, więc aby nie
+    % obliczać jej za każdym razem od nowa, jest po prostu przekazywana
+    % jako argument funkcji całkowanej
 
-    % zadanie o predkosci
-    qdot=Jakobian(q,t,Wiezy,rows)\WektorPrawychPredk(q,t,Wiezy,rows); 
-
-    % zadanie o przyspieszeniu
-    qddot=Jakobian(q,t,Wiezy,rows)\WektorGamma(q,qdot,t,Wiezy,rows);  
-
-    % zapis do tablic
-    lroz
-    lroz=lroz+1;
-    T(1,lroz)=t; 
-    Q(:,lroz)=q;
-    DQ(:,lroz)=qdot;
-    D2Q(:,lroz)=qddot;
+Y = Y';    
+    
+timepoints = 1:( length(T) );
+Ydot = zeros(size(Y));
+for iter=timepoints
+	Ydot(:,iter) = RHS( T(iter), Y(:,iter), Wiezy,rows,M, ilosc_cial, Bezwladnosci, ilosc_sprezyn, Sprezyny, ilosc_sil, Sily );
 end
+
+%% PAUSE
+%Porządkowanie danych wyjściowych
+%Wektor położeń:
+Q = [ Y( 1:3*ilosc_cial , : )];
+%Wektor predkosci
+DQ = [ Y( 3*ilosc_cial+1:6*ilosc_cial , : )];
+%Wektor przyspieszen
+D2Q = [ Ydot( 3*ilosc_cial+1:6*ilosc_cial , : )];
+
 postprocessor;
+
 
 
 
