@@ -148,7 +148,7 @@ end
 
 %struktura sprezyny
 for i=1:ilosc_sprezyn
-    Sprezyny(i) = cell2struct({tab_sprezyny(i,1), tab_sprezyny(i,2), tab_sprezyny(i,3), tab_sprezyny(i,4), (srodki_ciezkosci(tab_sprezyny(i,3),:)- punkty(tab_sprezyny(i,6),:))', (-srodki_ciezkosci(tab_sprezyny(i,3),:)+punkty(tab_sprezyny(i,6),:))', norm(punkty(tab_sprezyny(i,5),:)-punkty(tab_sprezyny(i,6),:))}', fieldnames(Sprezyny)); 
+    Sprezyny(i) = cell2struct({tab_sprezyny(i,1), tab_sprezyny(i,2), tab_sprezyny(i,3), tab_sprezyny(i,4), (punkty(tab_sprezyny(i,5),:)-srodki_ciezkosci(tab_sprezyny(i,3),:))', (punkty(tab_sprezyny(i,6),:)-srodki_ciezkosci(tab_sprezyny(i,4),:))', norm(punkty(tab_sprezyny(i,5),:)-punkty(tab_sprezyny(i,6),:))}', fieldnames(Sprezyny)); 
 end
 
 %structura bezwladnosci
